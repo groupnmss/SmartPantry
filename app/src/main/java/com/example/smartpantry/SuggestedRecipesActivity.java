@@ -15,6 +15,7 @@ import com.example.smartpantry.database.RecipeDataSource;
 import com.example.smartpantry.model.PantryItem;
 import com.example.smartpantry.model.Recipe;
 import com.example.smartpantry.util.RecipeMatcher;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,14 +36,10 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
 
         recyclerView = findViewById(R.id.recyclerViewRecipes);
         textEmptyState = findViewById(R.id.textEmptyState);
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecipeAdapter(matches, this::openRecipeDetail);
@@ -50,6 +47,25 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
         pantryDataSource = new PantryDataSource(this);
         recipeDataSource = new RecipeDataSource(this);
+
+        bottomNav.setSelectedItemId(R.id.nav_recipes);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_pantry) {
+                Intent i = new Intent(this, PantryListActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+                return true;
+            } else if (id == R.id.nav_settings) {
+                Intent i = new Intent(this, SettingsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+                return true;
+            }
+            return id == R.id.nav_recipes;
+        });
     }
 
     @Override
@@ -59,31 +75,23 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
     }
 
     private void refreshMatches() {
-        // Load user's pantry
         pantryDataSource.open();
         List<PantryItem> pantry = pantryDataSource.getAllPantryItems();
         pantryDataSource.close();
 
-        // Load all recipes with ingredients
         recipeDataSource.open();
         List<Recipe> allRecipes = recipeDataSource.getAllRecipesWithIngredients();
         recipeDataSource.close();
 
-        // Run strict-matching algorithm
         List<Recipe> newMatches = RecipeMatcher.findMatchingRecipes(allRecipes, pantry);
 
         matches.clear();
         matches.addAll(newMatches);
         adapter.notifyDataSetChanged();
 
-        // Update empty state
         if (matches.isEmpty()) {
             textEmptyState.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
-            textEmptyState.setText(
-                    "No recipes match your pantry yet.\n" +
-                    "Your pantry has " + pantry.size() + " item(s).\n" +
-                    "Add more ingredients to unlock more recipes.");
         } else {
             textEmptyState.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);

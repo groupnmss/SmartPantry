@@ -37,6 +37,11 @@
             android:parentActivityName=".SuggestedRecipesActivity" />
 
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".PantryListActivity" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
     </application>

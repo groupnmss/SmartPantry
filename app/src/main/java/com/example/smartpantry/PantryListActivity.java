@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartpantry.database.PantryDataSource;
 import com.example.smartpantry.model.PantryItem;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class PantryListActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.recyclerViewPantry);
         textEmptyState = findViewById(R.id.textEmptyState);
         FloatingActionButton fab = findViewById(R.id.fabAddIngredient);
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PantryAdapter(items, this, this);
@@ -44,6 +46,25 @@ public class PantryListActivity extends AppCompatActivity
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddEditIngredientActivity.class);
             startActivity(intent);
+        });
+
+        bottomNav.setSelectedItemId(R.id.nav_pantry);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_recipes) {
+                Intent i = new Intent(this, SuggestedRecipesActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+                return true;
+            } else if (id == R.id.nav_settings) {
+                Intent i = new Intent(this, SettingsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+                return true;
+            }
+            return id == R.id.nav_pantry;
         });
     }
 
@@ -74,7 +95,7 @@ public class PantryListActivity extends AppCompatActivity
     @Override
     public void onItemClick(PantryItem item) {
         Intent intent = new Intent(this, AddEditIngredientActivity.class);
-        intent.putExtra("PANTRY_ID", item.getId());
+        intent.putExtra(AddEditIngredientActivity.EXTRA_PANTRY_ID, item.getId());
         startActivity(intent);
     }
 
