@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Smart Pantry</string>
+    <string name="pantry_title">My Pantry</string>
+    <string name="pantry_empty">No ingredients yet.\nTap + to add your first ingredient.</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="ingredient_name_label">Ingredient name</string>
+    <string name="ingredient_name_hint">e.g. tomato</string>
+    <string name="ingredient_quantity_label">Quantity</string>
+    <string name="ingredient_quantity_hint">e.g. 3</string>
+    <string name="ingredient_unit_label">Unit</string>
+    <string name="ingredient_expiry_label">Expiry date (optional)</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="error_name_required">Please enter an ingredient name</string>
+    <string name="error_quantity_invalid">Please enter a valid quantity greater than 0</string>
+    <string name="error_unit_required">Please select a unit</string>
+    <string name="delete_confirm_title">Delete ingredient?</string>
+    <string name="delete_confirm_message">This will remove it from your pantry.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="nav_pantry">Pantry</string>
+    <string name="nav_suggested">Recipes</string>
+    <string name="nav_settings">Settings</string>
 </resources>
