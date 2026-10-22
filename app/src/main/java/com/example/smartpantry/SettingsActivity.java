@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.materialswitch.MaterialSwitch;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -19,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        MaterialSwitch sw = findViewById(R.id.switchExpiringSoon);
+        SwitchCompat sw = findViewById(R.id.switchExpiringSoon);
         sw.setChecked(false);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
-            return true;
+            return id == R.id.nav_settings;
         });
     }
 }
