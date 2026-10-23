@@ -55,7 +55,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
             TextView row = new TextView(this);
             String qty = formatQuantity(ing.getQuantity());
             row.setText("•  " + qty + " " + ing.getUnit() + " " + ing.getName());
-            row.setTextColor(getResources().getColor(R.color.text_primary));
+            row.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_primary));
             row.setTextSize(15f);
             row.setPadding(0, 6, 0, 6);
             row.setGravity(Gravity.START);
